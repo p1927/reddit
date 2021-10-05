@@ -40,57 +40,62 @@ export class ListViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select(selectSubjectRequest)).subscribe((subjectSearchRequest)=>{
+    this.subscription = this.store.pipe(select(selectSubjectRequest)).subscribe((subjectSearchRequest) => {
       this.searchRequest = subjectSearchRequest;
       this.currentPageSize = this.searchRequest.limit || DEFAULT_LIMIT;
     });
-    this.subscription = this.store.pipe(select(selectSubjectResponse))
-      .subscribe(( subjectSearchResponse) => {
-          this.searchResponse = subjectSearchResponse;
-          const responseAfter = this.searchResponse.data?.after;
-          const responseChildren = this.searchResponse.data?.children;
-        console.log(responseAfter, responseChildren?.map((e: any) => e.data.id));
+    const responseSubscription = this.store.pipe(select(selectSubjectResponse))
+      .subscribe((subjectSearchResponse) => {
+        this.searchResponse = subjectSearchResponse;
+        const responseChildren = this.searchResponse.data?.children;
+        console.log(responseChildren?.map((e: any) => e.data.id));
         const totalElements = this.searchResponse?.data?.dist;
 
         this.isPreviousDisabled = false;
         this.isNextDisabled = false;
+        // if searching forward and total elements returned are zero then disable Next button
         if (!this.searchRequest?.before && (totalElements === 0)) {
           this.snackBar.open(LAST_PAGE_REACHED, 'OK', {duration: SNACKBAR_TIMEOUT});
           this.isNextDisabled = true;
         }
+        // if searching previous and total elements returned are zero then disable Previous button
         if (this.searchRequest?.before && (totalElements === 0)) {
           this.snackBar.open(FIRST_PAGE_REACHED, 'OK', {duration: SNACKBAR_TIMEOUT});
           this.isPreviousDisabled = true;
         }
+        // if its page zero of search and forward link is null then disable Next and Previous button
         if (!this.searchRequest?.after && !this.searchRequest?.before && !(this.searchResponse?.data?.after)) {
-          this.isPreviousDisabled = true;  this.isNextDisabled = true;
+          this.isPreviousDisabled = true;
+          this.isNextDisabled = true;
         }
 
-        if (totalElements >0 ) {
-          console.log('Fired');
+        // if only search has returned elements change the Post list on view
+        if (totalElements > 0) {
           this.postList = this.mapResponseChildrenToPostList();
-          while(this.postList.length > this.currentPageSize) {
+          // pop elements that are more than pageSize
+          while (this.postList.length > this.currentPageSize) {
             this.postList.pop();
           }
           console.log(this.postList.map((e) => e.id));
+          // define first and last reference index for the Post List
           this.index.last = this.getIndexFromChild(this.postList[this.postList.length - 1]);
           this.index.first = this.getIndexFromChild(this.postList[0]);
-          console.log('Index', this.index);
         }
 
       });
+    this.subscription.add(responseSubscription);
 
   }
 
   mapResponseChildrenToPostList(): Post[] {
     const responseChildren = this.searchResponse.data?.children;
-    let pinnnedElementsCount = this.searchResponse.data?.dist - this.currentPageSize;
-      return responseChildren.map((entry: any, index: number) => {
-        if((this.searchRequest.before || this.searchRequest.after) &&  (pinnnedElementsCount > 0)){
-            pinnnedElementsCount--;
-            return null;
-        }
-       else {
+    let pinnedElementsCount = this.searchResponse.data?.dist - this.currentPageSize;
+    return responseChildren.map((entry: any) => {
+      // if we are moving between pages and we receive pinned elements, remove them
+      if ((this.searchRequest.before || this.searchRequest.after) && (pinnedElementsCount > 0)) {
+        pinnedElementsCount--;
+        return null;
+      } else {
         return {
           kind: entry.kind,
           id: entry.data.id,
@@ -104,11 +109,12 @@ export class ListViewComponent implements OnInit, OnDestroy {
         } as Post;
       }
 
-    }).filter((element: any,index : number) => (element !== null) );
+    }).filter((element: any, index: number) => (element !== null));
   }
 
 
   setCurrentPageSize(event: MatSelectChange): void {
+    // get an element before current post List's First element
     const searchRequest: SubjectSearchRequest = {
       subject: this.searchRequest.subject,
       limit: this.currentPageSize,
@@ -124,26 +130,32 @@ export class ListViewComponent implements OnInit, OnDestroy {
   }
 
   fetchNextPosts(): void {
-      const searchRequest: SubjectSearchRequest = {
-        subject: this.searchRequest.subject,
-        limit: this.currentPageSize,
-        after: this.index.last||undefined
-      }
-      if(searchRequest.after) {this.store.dispatch(searchSubject(searchRequest))}
+    // search for next set of elements after the last PostList element
+    const searchRequest: SubjectSearchRequest = {
+      subject: this.searchRequest.subject,
+      limit: this.currentPageSize,
+      after: this.index.last || undefined
+    }
+    if (searchRequest.after) {
+      this.store.dispatch(searchSubject(searchRequest))
+    }
   }
 
   fetchPreviousPosts(): void {
-      const searchRequest: SubjectSearchRequest = {
-        subject: this.searchRequest.subject,
-        limit: this.currentPageSize,
-        before: this.index.first||undefined
-      }
-      if(searchRequest.before) {this.store.dispatch(searchSubject(searchRequest))}
+    // search for previous set of elements before the first PostList element
+    const searchRequest: SubjectSearchRequest = {
+      subject: this.searchRequest.subject,
+      limit: this.currentPageSize,
+      before: this.index.first || undefined
+    }
+    if (searchRequest.before) {
+      this.store.dispatch(searchSubject(searchRequest))
+    }
 
   }
 
-  getIndexFromChild(child : any){
-    return child.kind+ '_' + child.id;
+  getIndexFromChild(child: any) {
+    return child.kind + '_' + child.id;
   }
 
 

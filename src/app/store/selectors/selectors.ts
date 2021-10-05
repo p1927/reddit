@@ -14,9 +14,6 @@ export const selectSubjectResponse = createSelector(
   (state : SubjectSearch) => state.subjectSearchResponse
 );
 
-
-
-
 export const selectErrorMessage = createSelector(
   SubjectSearchSelector,
   (state : SubjectSearch) => state.message
