@@ -12,15 +12,14 @@ import {DEFAULT_LIMIT} from "../../list-view/list-view.constants";
 export class RedditEffects {
 
   constructor(
-    // inject Actions from @ngrx/effects
     private actions: Actions,
     private http: HttpClient,
-    private store: Store
   ) {
   }
 
   getSubjectSearchURL({subject, limit, before, after}: SubjectSearchRequest): string {
-    return `https://www.reddit.com/r/${subject}.json?limit=${limit? limit : DEFAULT_LIMIT}${before ? '&before=' + before : ''}${after ? '&after=' + after : ''}`;
+    return `https://www.reddit.com/r/${subject}.json?limit=${limit?
+      limit : DEFAULT_LIMIT}${before ? '&before=' + before : ''}${after ? '&after=' + after : ''}`;
   }
 
   sendSearchRequest(subjectSearchRequest: SubjectSearchRequest) {
@@ -37,7 +36,6 @@ export class RedditEffects {
     this.actions.pipe(
       ofType(searchSubject),
       mergeMap((searchRequest: SubjectSearchRequest) => {
-        console.log(233,searchRequest);
         return this.sendSearchRequest(searchRequest)
           .pipe(
             map((subjectSearchresponse: SubjectSearchResponse) =>
@@ -55,8 +53,10 @@ export class RedditEffects {
     this.actions.pipe(
       ofType(changePageSize),
       mergeMap((searchRequest: SubjectSearchRequest)=>{
+        // search for one element before the current set of PostList elements
         return this.sendSearchRequest({...searchRequest, limit: 1})
           .pipe(map((subjectSearchresponse: SubjectSearchResponse) =>
+              // search for next set of elements after the obtained previous page element
               searchSubject({
                 ...searchRequest,
                 after: subjectSearchresponse.data?.dist !== 0 ?

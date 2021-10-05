@@ -14,6 +14,8 @@ import {
 import {MatSelectChange} from "@angular/material/select";
 import {changePageSize, searchSubject} from "../store/actions/actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {DetailViewComponent} from "../detail-view/detail-view.component";
 
 @Component({
   selector: 'app-list-view',
@@ -36,7 +38,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
   isPreviousDisabled: boolean = false;
 
   constructor(private store: Store<RedditState>,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -99,7 +101,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
         return {
           kind: entry.kind,
           id: entry.data.id,
-          selfText: entry.data.selfText,
+          selfText: entry.data.selftext,
           author: entry.data.author,
           created: entry.data.created,
           num_comments: entry.data.num_comments,
@@ -158,5 +160,8 @@ export class ListViewComponent implements OnInit, OnDestroy {
     return child.kind + '_' + child.id;
   }
 
+openDialog(post :Post) {
+  this.dialog.open(DetailViewComponent, { data: post});
+  }
 
 }

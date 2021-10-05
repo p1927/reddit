@@ -19,6 +19,10 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -38,9 +42,14 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
     BrowserAnimationsModule,
     MatCardModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatInputModule,
+    MatSnackBarModule,
+    MatIconModule,
+    MatDialogModule
   ],
+  entryComponents: [DetailViewComponent],
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -1,7 +1,7 @@
 <div class="container">
 
   <div class="row" *ngFor="let post of postList">
-    <mat-card class="max-card-width">
+    <mat-card class="max-card-width"  (click)="openDialog(post)">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>{{post.title}}</mat-card-title>

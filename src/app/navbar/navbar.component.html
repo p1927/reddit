@@ -6,6 +6,12 @@
   />
   <span>reddit</span>
   <div class="spacer"></div>
-  <input [(ngModel)]="searchText" type="text" class="search-bar">
+
+  <mat-form-field class="search-bar" appearance="outline">
+    <mat-label>Search</mat-label>
+    <span matPrefix>  <mat-icon>mat_search</mat-icon></span>
+    <input type="text" matInput [(ngModel)]="searchText" placeholder="Search">
+  </mat-form-field>
+
   <button class="search-button" (click)="search()">Search</button>
 </div>

@@ -4,6 +4,7 @@ import {select, Store} from "@ngrx/store";
 import {searchSubject} from "../store/actions/actions";
 import {selectSubjectRequest} from "../store/selectors/selectors";
 import {DEFAULT_LIMIT} from "../list-view/list-view.constants";
+import {FormControl} from "@angular/forms";
 
 
 @Component({
@@ -13,14 +14,13 @@ import {DEFAULT_LIMIT} from "../list-view/list-view.constants";
 })
 export class NavbarComponent implements OnInit {
   searchRequest: SubjectSearchRequest | undefined;
-  searchText = 'xxy';
+  searchText = '';
 
   constructor(private store: Store<RedditState>,
   ) {
   }
 
   search(): void {
-    console.log(this.searchText);
     this.store.dispatch(searchSubject({subject: this.searchText, limit: this.searchRequest?.limit||DEFAULT_LIMIT}));
   }
 
