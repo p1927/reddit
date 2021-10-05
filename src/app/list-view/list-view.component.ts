@@ -143,7 +143,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
   }
 
   getIndexFromChild(child : any){
-    return child.kind+ '_' + child.data.id;
+    return child.kind+ '_' + child.id;
   }
 
 
