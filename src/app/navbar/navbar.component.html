@@ -1,17 +1,15 @@
-<div class="toolbar" role="banner">
-  <img
-    width="40"
-    alt="Reddit Logo"
-    src="/assets/logo_icon.png"
-  />
-  <span>reddit</span>
-  <div class="spacer"></div>
+<div class="toolbar">
+<div class="brand">    <img
+  width="40"
+  alt="Reddit Logo"
+  src="/assets/logo_icon.png"
+  class="d-inline-block align-top" >
+  <h2 class="title">Reddit</h2>
+</div>
 
-  <mat-form-field class="search-bar" appearance="outline">
-    <mat-label>Search</mat-label>
-    <span matPrefix>  <mat-icon>mat_search</mat-icon></span>
-    <input type="text" matInput [(ngModel)]="searchText" placeholder="Search">
-  </mat-form-field>
+  <div class="search">
+    <input matInput type="search"  class="search-bar"  [(ngModel)]="searchText" placeholder="Search" aria-label="Search">
+    <button mat-raised-button type="submit" class="search-btn" (click)="search()">Search</button>
+  </div>
 
-  <button class="search-button" (click)="search()">Search</button>
 </div>
