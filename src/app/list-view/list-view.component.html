@@ -1,0 +1,35 @@
+<div class="container">
+
+  <div class="row" *ngFor="let post of postList">
+    <mat-card class="max-card-width">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{post.title}}</mat-card-title>
+        <mat-card-subtitle>{{post.author}}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image class="thumbnail-width" src="{{post.thumbnail}}" alt="Thumbnail">
+      <mat-card-content>
+        <p>
+         {{post.score}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>COMMENTS {{post.num_comments}}</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <mat-card>
+  <mat-card-actions>
+    <mat-form-field appearance="outline">
+      <mat-label>Select page size</mat-label>
+      <mat-select [(ngModel)]="currentPageSize" (selectionChange)="setCurrentPageSize($event)">
+        <mat-option *ngFor="let option of pageSizeOptions" [value]="option">{{option}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-button (click)="fetchPreviousPosts()" [disabled]="isPreviousDisabled">PREVIOUS</button>
+    <button mat-button (click)="fetchNextPosts()" [disabled]="isNextDisabled">NEXT</button>
+  </mat-card-actions>
+  </mat-card>
+
+</div>
