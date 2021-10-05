@@ -5,7 +5,8 @@ export const SearchAction = {
   SEARCH_SUBJECT: '[RedditSearch] Search for a subject',
   SAVE_SEARCH_REQUEST : '[RedditSearch] Save Search for a subject',
   SEARCH_SUCCESSFUL: '[RedditSearch] Subject search successful',
-  SEARCH_FAIL: '[RedditSearch] Subject Search failed'
+  SEARCH_FAIL: '[RedditSearch] Subject Search failed',
+  CHANGE_PAGE_SIZE: '[RedditSearch] Change page size',
 
 };
 
@@ -14,8 +15,8 @@ export const searchSubject = createAction(
   props<SubjectSearchRequest>()
 );
 
-export const saveSearch = createAction(
-  SearchAction.SAVE_SEARCH_REQUEST,
+export const changePageSize = createAction(
+  SearchAction.CHANGE_PAGE_SIZE,
   props<SubjectSearchRequest>()
 );
 

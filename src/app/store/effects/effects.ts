@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {saveSearch, SearchAction, searchFail, searchSubject, searchSuccess} from "../actions/actions";
+import {changePageSize, searchFail, searchSubject, searchSuccess} from "../actions/actions";
 import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
 import {catchError, concatMap, map, mergeMap, switchMap, tap} from "rxjs/operators";
 import {SubjectSearchRequest, SubjectSearchResponse} from "../models/model";
@@ -28,6 +28,10 @@ export class RedditEffects {
     return this.http.get<SubjectSearchResponse>(subjectSearchURL);
   }
 
+  getIndexFromChild(child : any){
+     return child.kind+ '_' + child.data.id;
+  }
+
 
   subjectSearch$ = createEffect(() =>
     this.actions.pipe(
@@ -46,6 +50,25 @@ export class RedditEffects {
       })
     )
     );
+
+  changePageSize$ = createEffect(() =>
+    this.actions.pipe(
+      ofType(changePageSize),
+      mergeMap((searchRequest: SubjectSearchRequest)=>{
+        return this.sendSearchRequest({...searchRequest, limit: 1})
+          .pipe(map((subjectSearchresponse: SubjectSearchResponse) =>
+              searchSubject({
+                ...searchRequest,
+                after: subjectSearchresponse.data?.dist !== 0 ?
+                  this.getIndexFromChild(subjectSearchresponse.data?.children[0]) : undefined,
+                before: undefined })
+            ),
+            catchError((error) =>
+              of(searchFail({message: error && error.message ? error.message : 'An error occured'}))
+            ));
+      })
+    )
+  );
 
 
 }

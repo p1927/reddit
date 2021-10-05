@@ -12,7 +12,7 @@ import {
   SNACKBAR_TIMEOUT
 } from "./list-view.constants";
 import {MatSelectChange} from "@angular/material/select";
-import {searchSubject} from "../store/actions/actions";
+import {changePageSize, searchSubject} from "../store/actions/actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -73,8 +73,8 @@ export class ListViewComponent implements OnInit, OnDestroy {
             this.postList.pop();
           }
           console.log(this.postList.map((e) => e.id));
-          this.index.last = this.getIndex(this.postList[this.postList.length - 1]);
-          this.index.first = this.getIndex(this.postList[0]);
+          this.index.last = this.getIndexFromChild(this.postList[this.postList.length - 1]);
+          this.index.first = this.getIndexFromChild(this.postList[0]);
           console.log('Index', this.index);
         }
 
@@ -114,7 +114,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
       limit: this.currentPageSize,
       before: this.index.first || undefined
     }
-    this.store.dispatch(searchSubject(searchRequest))
+    this.store.dispatch(changePageSize(searchRequest))
   }
 
   ngOnDestroy(): void {
@@ -142,8 +142,9 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
   }
 
-  getIndex(e :Post){
-    return e.kind+'_'+e.id;
+  getIndexFromChild(child : any){
+    return child.kind+ '_' + child.data.id;
   }
+
 
 }
