@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {Post} from "../list-view/list-view.constants";
+import {Post} from "../list-view/list-view.interfaces";
 
 @Component({
   selector: 'app-detail-view',

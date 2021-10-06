@@ -12,13 +12,12 @@ import {
   DEFAULT_LIMIT,
   FIRST_PAGE_REACHED,
   LAST_PAGE_REACHED,
-  PageIndex,
-  Post,
   SNACKBAR_TIMEOUT
 } from "./list-view.constants";
 import {MatSelectChange} from "@angular/material/select";
 import {changePageSize, searchSubject} from "../../store/actions/actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {PageIndex, Post} from "./list-view.interfaces";
 
 
 @Component({
@@ -30,7 +29,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
   subscription: Subscription | undefined;
   searchRequest: SubjectSearchRequest = {
     subject: '',
-    limit: 10,
+    limit: DEFAULT_LIMIT,
   };
   searchResponse: SubjectSearchResponse | any;
   postList: Post[] = [];

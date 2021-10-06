@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {Post} from "../list-view/list-view.constants";
 import {DetailViewComponent} from "../detail-view/detail-view.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Post} from "../list-view/list-view.interfaces";
 
 @Component({
   selector: 'app-post-card',
