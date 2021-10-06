@@ -17,7 +17,7 @@ export class RedditEffects {
   }
 
   getSubjectSearchURL({subject, limit, before, after}: SubjectSearchRequest): string {
-    return `https://www.reddit.com/r/${subject}.json?limit=${limit ?
+    return `/api/r/${subject}.json?limit=${limit ?
       limit : DEFAULT_LIMIT}${before ? '&before=' + before : ''}${after ? '&after=' + after : ''}`;
   }
 
