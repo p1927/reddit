@@ -16,21 +16,6 @@ export class RedditEffects {
   ) {
   }
 
-  getSubjectSearchURL({subject, limit, before, after}: SubjectSearchRequest): string {
-    return `/api/r/${subject}.json?limit=${limit ?
-      limit : DEFAULT_LIMIT}${before ? '&before=' + before : ''}${after ? '&after=' + after : ''}`;
-  }
-
-  sendSearchRequest(subjectSearchRequest: SubjectSearchRequest) {
-    const subjectSearchURL = this.getSubjectSearchURL(subjectSearchRequest);
-    return this.http.get<SubjectSearchResponse>(subjectSearchURL);
-  }
-
-  getIndexFromChild(child: any) {
-    return child.kind + '_' + child.data.id;
-  }
-
-
   subjectSearch$ = createEffect(() =>
     this.actions.pipe(
       ofType(searchSubject),
@@ -41,13 +26,12 @@ export class RedditEffects {
               searchSuccess(subjectSearchresponse)
             ),
             catchError((error) =>
-              of(searchFail({error: error }))
+              of(searchFail({error: error}))
             )
           );
       })
     )
   );
-
   changePageSize$ = createEffect(() =>
     this.actions.pipe(
       ofType(changePageSize),
@@ -69,6 +53,20 @@ export class RedditEffects {
       })
     )
   );
+
+  getSubjectSearchURL({subject, limit, before, after}: SubjectSearchRequest): string {
+    return `/api/r/${subject}.json?limit=${limit ?
+      limit : DEFAULT_LIMIT}${before ? '&before=' + before : ''}${after ? '&after=' + after : ''}`;
+  }
+
+  sendSearchRequest(subjectSearchRequest: SubjectSearchRequest) {
+    const subjectSearchURL = this.getSubjectSearchURL(subjectSearchRequest);
+    return this.http.get<SubjectSearchResponse>(subjectSearchURL);
+  }
+
+  getIndexFromChild(child: any) {
+    return child.kind + '_' + child.data.id;
+  }
 
 
 }

@@ -8,12 +8,7 @@ import {
 } from "../../store/selectors/selectors";
 import {RedditState, SubjectSearchRequest, SubjectSearchResponse} from "../../store/models/model";
 import {Subscription} from "rxjs";
-import {
-  DEFAULT_LIMIT,
-  FIRST_PAGE_REACHED,
-  LAST_PAGE_REACHED,
-  SNACKBAR_TIMEOUT
-} from "./list-view.constants";
+import {DEFAULT_LIMIT, FIRST_PAGE_REACHED, LAST_PAGE_REACHED, SNACKBAR_TIMEOUT} from "./list-view.constants";
 import {MatSelectChange} from "@angular/material/select";
 import {changePageSize, searchSubject} from "../../store/actions/actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -48,7 +43,10 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.store.pipe(select(selectSubjectRequest)).subscribe((subjectSearchRequest) => {
-      if(subjectSearchRequest.subject !== this.searchRequest.subject){ this.postList = [];}
+      // if the search text has changed reset the postList
+      if (subjectSearchRequest.subject !== this.searchRequest.subject) {
+        this.postList = [];
+      }
       this.searchRequest = subjectSearchRequest;
       this.currentPageSize = this.searchRequest.limit || DEFAULT_LIMIT;
     });

@@ -19,7 +19,7 @@
   align-items: flex-end;
 }
 
-.spinner-position{
+.spinner-position {
   position: relative;
   top: -50%;
   left: -25%;
@@ -27,7 +27,7 @@
 }
 
 ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-  stroke: #2A79FF!important;
+  stroke: #2A79FF !important;
 }
 
 .error-box {
