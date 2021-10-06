@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Deployed in heroku
 This application have been deployed on heroku server :
-`https://redditsim.herokuapp.com/`
+`[https://redditsim.herokuapp.com](https://redditsim.herokuapp.com)/`
 
 ## Development server
 
