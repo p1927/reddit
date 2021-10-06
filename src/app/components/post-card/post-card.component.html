@@ -9,7 +9,7 @@
 
   <main class="card-content">
     <section class="card-content-body">
-      <div class="card-content-body-score">
+      <div *ngIf="post.score" class="card-content-body-score">
         <p>{{post.score}}</p>
         <span>Score</span>
       </div>
@@ -21,7 +21,7 @@
 
   <div class="card-actions">
     <div>
-      <button color="basic" mat-button>
+      <button *ngIf="post.num_comments" color="basic" mat-button>
         <mat-icon class="icons">comment</mat-icon>
         <span class="margin-left-5">{{post.num_comments}}</span>
       </button>

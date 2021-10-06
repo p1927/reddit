@@ -1,6 +1,8 @@
 <h2 mat-dialog-title class="content-text">{{data.title}}</h2>
 <mat-dialog-content class="mat-typography">
-  <p class="content-text">{{data.selfText}}</p>
+  <p *ngIf="data.selfText" class="content-text">{{data.selfText}}</p>
+  <p *ngIf="!data.selfText" class="error-box content-text">Property Selftext is not defined</p>
+
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>

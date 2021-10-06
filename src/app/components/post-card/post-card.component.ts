@@ -25,7 +25,9 @@ export class PostCardComponent {
   }
 
   openDialog(post: Post) {
-    this.dialog.open(DetailViewComponent, {data: post});
+    this.dialog.open(DetailViewComponent, {data: post,
+      minWidth: '600px',
+    });
   }
 
   getThumbnail(thumbnail: string) {
@@ -36,7 +38,7 @@ export class PostCardComponent {
       case thumbnail === 'nsfw' : {
         return '../../../assets/nsfw2.png';
       }
-      case (thumbnail !== 'default' && thumbnail.length > 0) : {
+      case (thumbnail && thumbnail !== 'default' && thumbnail.length > 0) : {
         return thumbnail;
       }
       default:

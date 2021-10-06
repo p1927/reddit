@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
 
   search(): void {
     this.store.dispatch(searchSubject(
-      {subject: this.searchText, limit: this.searchRequest?.limit || DEFAULT_LIMIT}));
+      {subject: this.searchText.trim(), limit: this.searchRequest?.limit || DEFAULT_LIMIT}));
   }
 
   ngOnInit(): void {
