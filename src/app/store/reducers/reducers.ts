@@ -9,19 +9,19 @@ export const reducer = createReducer(
   on(searchSubject, (state, searchRequest) => ({
     ...state,
     subjectSearchRequest: {...searchRequest, limit: searchRequest.limit || DEFAULT_LIMIT},
-    message: null,
+    error: null,
     isLoading: true
   })),
   on(searchSuccess, (state, searchResponse) => ({
     ...state,
     subjectSearchResponse: searchResponse,
-    message: null,
+    error: null,
     isLoading: false
   })),
-  on(searchFail, (state, {message}) => ({
+  on(searchFail, (state, {error}) => ({
     ...state,
     subjectSearchResponse: {},
-    message: message,
+    error: error,
     isLoading: false
   }))
 );

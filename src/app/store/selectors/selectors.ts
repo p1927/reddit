@@ -14,9 +14,9 @@ export const selectSubjectResponse = createSelector(
   (state: SubjectSearch) => state.subjectSearchResponse
 );
 
-export const selectErrorMessage = createSelector(
+export const selectError = createSelector(
   SubjectSearchSelector,
-  (state: SubjectSearch) => state.message
+  (state: SubjectSearch) => state.error
 );
 
 export const selectIsLoading = createSelector(

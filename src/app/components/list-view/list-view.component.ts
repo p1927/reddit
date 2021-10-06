@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {
-  selectErrorMessage,
+  selectError,
   selectIsLoading,
   selectSubjectRequest,
   selectSubjectResponse
@@ -18,6 +18,7 @@ import {MatSelectChange} from "@angular/material/select";
 import {changePageSize, searchSubject} from "../../store/actions/actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {PageIndex, Post} from "./list-view.interfaces";
+import {HttpErrorResponse} from "@angular/common/http";
 
 
 @Component({
@@ -38,7 +39,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
   index: PageIndex = {last: '', first: ''};
   isNextDisabled: boolean = false;
   isPreviousDisabled: boolean = false;
-  message: string | null | undefined;
+  error: HttpErrorResponse | null | undefined;
   isLoading: boolean = false;
 
   constructor(private store: Store<RedditState>,
@@ -51,8 +52,8 @@ export class ListViewComponent implements OnInit, OnDestroy {
       this.searchRequest = subjectSearchRequest;
       this.currentPageSize = this.searchRequest.limit || DEFAULT_LIMIT;
     });
-    const messageSubscription = this.store.pipe(select(selectErrorMessage)).subscribe((message) => {
-      this.message = message;
+    const errorSubscription = this.store.pipe(select(selectError)).subscribe((error) => {
+      this.error = error;
     });
 
     const isLoadingSubscription = this.store.pipe(select(selectIsLoading)).subscribe((isLoading) => {
@@ -96,7 +97,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
       });
     this.subscription.add(responseSubscription);
-    this.subscription.add(messageSubscription);
+    this.subscription.add(errorSubscription);
     this.subscription.add(isLoadingSubscription);
 
   }

@@ -41,7 +41,7 @@ export class RedditEffects {
               searchSuccess(subjectSearchresponse)
             ),
             catchError((error) =>
-              of(searchFail({message: error && error.message ? error.message : 'An error occured'}))
+              of(searchFail({error: error }))
             )
           );
       })
@@ -64,7 +64,7 @@ export class RedditEffects {
               })
             ),
             catchError((error) =>
-              of(searchFail({message: error && error.message ? error.message : 'An error occured'}))
+              of(searchFail({error: error}))
             ));
       })
     )

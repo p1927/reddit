@@ -2,13 +2,13 @@
   <div class="overlay-layer" *ngIf="isLoading">
     <mat-spinner class="spinner-position" [diameter]="80"></mat-spinner>
   </div>
-  <div class="error-box" *ngIf="message && !isLoading">
-    <h2>Error occured!</h2>
+  <div class="error-box" *ngIf="error && !isLoading">
+    <h2> Error occured! Error Status : {{error.status}}</h2>
     <p>
-      {{message}}
+      {{error.message}}
     </p></div>
 
-  <div class="info-box" *ngIf="(!postList || postList.length === 0) && !message && !isLoading">
+  <div class="info-box" *ngIf="(!postList || postList.length === 0) && !error && !isLoading">
     <h2>{{searchRequest.subject === '' ? 'Its time to search!' : 'No elements retreived' }}</h2>
     <p>
       Enter text in search and press the search button
@@ -18,7 +18,7 @@
     <app-post-card [post]="post"></app-post-card>
   </div>
 
-  <div class="last-card" *ngIf="(postList && postList.length>0) && !message">
+  <div class="last-card" *ngIf="(postList && postList.length>0) && !error">
     <div class="buttons">
       <mat-form-field appearance="fill">
         <mat-label>Select page size</mat-label>

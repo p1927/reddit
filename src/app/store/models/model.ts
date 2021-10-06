@@ -1,9 +1,10 @@
 import {DEFAULT_LIMIT} from "../../components/list-view/list-view.constants";
+import {HttpErrorResponse} from "@angular/common/http";
 
 export interface SubjectSearch {
   subjectSearchRequest: SubjectSearchRequest;
   subjectSearchResponse: SubjectSearchResponse;
-  message: string | null;
+  error: HttpErrorResponse | null;
   isLoading: boolean;
 }
 
@@ -19,7 +20,7 @@ export const initialRedditState: RedditState = {
       limit: DEFAULT_LIMIT
     },
     subjectSearchResponse: {},
-    message: null,
+    error: null,
     isLoading: false,
   }
 };

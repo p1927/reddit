@@ -1,5 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {SubjectSearchRequest, SubjectSearchResponse} from "../models/model";
+import {HttpErrorResponse} from "@angular/common/http";
 
 export const SearchAction = {
   SEARCH_SUBJECT: '[RedditSearch] Search for a subject',
@@ -27,5 +28,5 @@ export const searchSuccess = createAction(
 
 export const searchFail = createAction(
   SearchAction.SEARCH_FAIL,
-  props<{ message: string }>()
+  props<{ error: HttpErrorResponse }>()
 );
