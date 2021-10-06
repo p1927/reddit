@@ -1,14 +1,14 @@
-import {DEFAULT_LIMIT} from "../../list-view/list-view.constants";
+import {DEFAULT_LIMIT} from "../../components/list-view/list-view.constants";
 
 export interface SubjectSearch {
   subjectSearchRequest: SubjectSearchRequest;
   subjectSearchResponse: SubjectSearchResponse;
-  message: string|null;
+  message: string | null;
   isLoading: boolean;
 }
 
 export interface RedditState {
-  subjectSearch: SubjectSearch|any;
+  subjectSearch: SubjectSearch | any;
 }
 
 

@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="overlay-layer" *ngIf="isLoading">
+    <mat-spinner [color]="'lightblue'" [diameter]="80"></mat-spinner>
+  </div>
+  <div class="error-box" *ngIf="message && !isLoading">
+    <h2>Error occured!</h2>
+    <p>
+      {{message}}
+    </p></div>
+
+  <div class="info-box" *ngIf="(!postList || postList.length === 0) && !message && !isLoading">
+    <h2>{{searchRequest.subject === '' ? 'Its time to search!' : 'No elements retreived' }}</h2>
+    <p>
+      Enter text in search and press the search button
+    </p></div>
+
+  <div class="row" *ngFor="let post of postList">
+    <app-post-card [post]="post"></app-post-card>
+  </div>
+
+  <div class="last-card" *ngIf="(postList && postList.length>0) && !message">
+    <div class="buttons">
+      <mat-form-field appearance="fill">
+        <mat-label>Select page size</mat-label>
+        <mat-select [(ngModel)]="currentPageSize" (selectionChange)="setCurrentPageSize($event)">
+          <mat-option *ngFor="let option of pageSizeOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button class="buttons button-height" (click)="fetchPreviousPosts()"
+              [disabled]="isPreviousDisabled">PREVIOUS
+      </button>
+      <button mat-raised-button class="buttons button-height" (click)="fetchNextPosts()" [disabled]="isNextDisabled">
+        NEXT
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+

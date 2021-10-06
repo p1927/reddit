@@ -1,0 +1,35 @@
+<mat-card class="card">
+  <header>
+    <img alt="" src="{{post.thumbnail}}">
+    <div class="card-info">
+      <p class="posted-by"><span>Posted By: </span>{{post.author}}</p>
+      <p>{{post.created| formatDate}}</p>
+    </div>
+  </header>
+
+  <main class="card-content">
+    <section class="card-content-body">
+      <div class="card-content-body-score">
+        <p>{{post.score}}</p>
+        <span>Score</span>
+      </div>
+      <p class="card-content-body-title">
+        {{post.title}}
+      </p>
+    </section>
+  </main>
+
+  <div class="card-actions">
+    <div>
+      <button color="basic" mat-button>
+        <mat-icon class="icons">comment</mat-icon>
+        <span class="margin-left-5">{{post.num_comments}}</span>
+      </button>
+    </div>
+    <div>
+      <button (click)="openDialog(post)" color="basic" mat-button>
+        <span class="margin-left-5">VIEW</span>
+      </button>
+    </div>
+  </div>
+</mat-card>

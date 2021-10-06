@@ -1,7 +1,7 @@
-import {createReducer, on, Action} from '@ngrx/store';
-import {initialRedditState, RedditState, SubjectSearch} from '../models/model';
-import {searchSubject, searchSuccess, searchFail } from '../actions/actions';
-import {DEFAULT_LIMIT} from "../../list-view/list-view.constants";
+import {Action, createReducer, on} from '@ngrx/store';
+import {initialRedditState, SubjectSearch} from '../models/model';
+import {searchFail, searchSubject, searchSuccess} from '../actions/actions';
+import {DEFAULT_LIMIT} from "../../components/list-view/list-view.constants";
 
 
 export const reducer = createReducer(

@@ -6,15 +6,20 @@ export const SubjectSearchSelector = (state: RedditState) => state.subjectSearch
 
 export const selectSubjectRequest = createSelector(
   SubjectSearchSelector,
-  (state : SubjectSearch) => state.subjectSearchRequest
+  (state: SubjectSearch) => state.subjectSearchRequest
 );
 
 export const selectSubjectResponse = createSelector(
   SubjectSearchSelector,
-  (state : SubjectSearch) => state.subjectSearchResponse
+  (state: SubjectSearch) => state.subjectSearchResponse
 );
 
 export const selectErrorMessage = createSelector(
   SubjectSearchSelector,
-  (state : SubjectSearch) => state.message
+  (state: SubjectSearch) => state.message
+);
+
+export const selectIsLoading = createSelector(
+  SubjectSearchSelector,
+  (state: SubjectSearch) => state.isLoading
 );

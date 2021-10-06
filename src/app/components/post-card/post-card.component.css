@@ -1,0 +1,111 @@
+.card {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+}
+
+.card header {
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+}
+
+.margin-left-5 {
+  margin-left: 5px;
+  font-size: 14px;
+  color: dodgerblue;
+}
+
+.posted-by {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.posted-by span {
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.card header img {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.card header p:first-child {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.card header h2 span {
+  color: lightgray;
+}
+
+.card header p {
+  font-size: 12px;
+  margin-bottom: 0;
+  font-weight: 200;
+}
+
+.card-action {
+  margin-left: auto;
+  align-self: flex-start;
+}
+
+.card-content-body {
+  padding: 16px;
+  min-height: 50px;
+  margin: 0 -16px 0 -16px;
+  border-bottom: solid 0.1px rgba(0, 0, 0, 0.1);
+}
+
+.card-content-body-score {
+  position: absolute;
+  left: 80%;
+  top: 8%;
+  text-align: center;
+  width: 15%;
+}
+
+.card-content-body-score p {
+  line-height: 1.1;
+  font-size: 26px;
+  font-weight: 400;
+  color: black;
+  margin: 0;
+}
+
+.card-content-body-score span {
+  font-size: 12px;
+  font-weight: 200;
+}
+
+.card-content-body-title {
+  text-align: justify;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.card-actions {
+  display: flex;
+  grid-gap: 10px;
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.card-actions > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-actions div:last-child {
+  margin-left: auto;
+}
+
+.icons {
+  color: dodgerblue;
+  font-size: 20px;
+}

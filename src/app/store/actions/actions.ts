@@ -1,9 +1,9 @@
-import { createAction, props } from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 import {SubjectSearchRequest, SubjectSearchResponse} from "../models/model";
 
 export const SearchAction = {
   SEARCH_SUBJECT: '[RedditSearch] Search for a subject',
-  SAVE_SEARCH_REQUEST : '[RedditSearch] Save Search for a subject',
+  SAVE_SEARCH_REQUEST: '[RedditSearch] Save Search for a subject',
   SEARCH_SUCCESSFUL: '[RedditSearch] Subject search successful',
   SEARCH_FAIL: '[RedditSearch] Subject Search failed',
   CHANGE_PAGE_SIZE: '[RedditSearch] Change page size',

@@ -1,12 +1,11 @@
 import {Injectable} from "@angular/core";
 import {changePageSize, searchFail, searchSubject, searchSuccess} from "../actions/actions";
-import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
-import {catchError, concatMap, map, mergeMap, switchMap, tap} from "rxjs/operators";
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {catchError, map, mergeMap} from "rxjs/operators";
 import {SubjectSearchRequest, SubjectSearchResponse} from "../models/model";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Store} from "@ngrx/store";
-import {EMPTY, Observable, of} from "rxjs";
-import {DEFAULT_LIMIT} from "../../list-view/list-view.constants";
+import {HttpClient} from "@angular/common/http";
+import {of} from "rxjs";
+import {DEFAULT_LIMIT} from "../../components/list-view/list-view.constants";
 
 @Injectable()
 export class RedditEffects {
@@ -18,7 +17,7 @@ export class RedditEffects {
   }
 
   getSubjectSearchURL({subject, limit, before, after}: SubjectSearchRequest): string {
-    return `https://www.reddit.com/r/${subject}.json?limit=${limit?
+    return `https://www.reddit.com/r/${subject}.json?limit=${limit ?
       limit : DEFAULT_LIMIT}${before ? '&before=' + before : ''}${after ? '&after=' + after : ''}`;
   }
 
@@ -27,8 +26,8 @@ export class RedditEffects {
     return this.http.get<SubjectSearchResponse>(subjectSearchURL);
   }
 
-  getIndexFromChild(child : any){
-     return child.kind+ '_' + child.data.id;
+  getIndexFromChild(child: any) {
+    return child.kind + '_' + child.data.id;
   }
 
 
@@ -47,12 +46,12 @@ export class RedditEffects {
           );
       })
     )
-    );
+  );
 
   changePageSize$ = createEffect(() =>
     this.actions.pipe(
       ofType(changePageSize),
-      mergeMap((searchRequest: SubjectSearchRequest)=>{
+      mergeMap((searchRequest: SubjectSearchRequest) => {
         // search for one element before the current set of PostList elements
         return this.sendSearchRequest({...searchRequest, limit: 1})
           .pipe(map((subjectSearchresponse: SubjectSearchResponse) =>
@@ -61,7 +60,8 @@ export class RedditEffects {
                 ...searchRequest,
                 after: subjectSearchresponse.data?.dist !== 0 ?
                   this.getIndexFromChild(subjectSearchresponse.data?.children[0]) : undefined,
-                before: undefined })
+                before: undefined
+              })
             ),
             catchError((error) =>
               of(searchFail({message: error && error.message ? error.message : 'An error occured'}))

@@ -1,7 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
-import {selectSubjectRequest, selectSubjectResponse} from "../store/selectors/selectors";
-import {RedditState, SubjectSearchRequest, SubjectSearchResponse} from "../store/models/model";
+import {
+  selectErrorMessage,
+  selectIsLoading,
+  selectSubjectRequest,
+  selectSubjectResponse
+} from "../../store/selectors/selectors";
+import {RedditState, SubjectSearchRequest, SubjectSearchResponse} from "../../store/models/model";
 import {Subscription} from "rxjs";
 import {
   DEFAULT_LIMIT,
@@ -12,10 +17,9 @@ import {
   SNACKBAR_TIMEOUT
 } from "./list-view.constants";
 import {MatSelectChange} from "@angular/material/select";
-import {changePageSize, searchSubject} from "../store/actions/actions";
+import {changePageSize, searchSubject} from "../../store/actions/actions";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatDialog} from "@angular/material/dialog";
-import {DetailViewComponent} from "../detail-view/detail-view.component";
+
 
 @Component({
   selector: 'app-list-view',
@@ -27,7 +31,6 @@ export class ListViewComponent implements OnInit, OnDestroy {
   searchRequest: SubjectSearchRequest = {
     subject: '',
     limit: 10,
-    isLoading: false,
   };
   searchResponse: SubjectSearchResponse | any;
   postList: Post[] = [];
@@ -36,9 +39,11 @@ export class ListViewComponent implements OnInit, OnDestroy {
   index: PageIndex = {last: '', first: ''};
   isNextDisabled: boolean = false;
   isPreviousDisabled: boolean = false;
+  message: string | null | undefined;
+  isLoading: boolean = false;
 
   constructor(private store: Store<RedditState>,
-              private snackBar: MatSnackBar, public dialog: MatDialog) {
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -46,11 +51,17 @@ export class ListViewComponent implements OnInit, OnDestroy {
       this.searchRequest = subjectSearchRequest;
       this.currentPageSize = this.searchRequest.limit || DEFAULT_LIMIT;
     });
+    const messageSubscription = this.store.pipe(select(selectErrorMessage)).subscribe((message) => {
+      this.message = message;
+    });
+
+    const isLoadingSubscription = this.store.pipe(select(selectIsLoading)).subscribe((isLoading) => {
+      this.isLoading = isLoading;
+    });
     const responseSubscription = this.store.pipe(select(selectSubjectResponse))
       .subscribe((subjectSearchResponse) => {
         this.searchResponse = subjectSearchResponse;
         const responseChildren = this.searchResponse.data?.children;
-        console.log(responseChildren?.map((e: any) => e.data.id));
         const totalElements = this.searchResponse?.data?.dist;
 
         this.isPreviousDisabled = false;
@@ -78,7 +89,6 @@ export class ListViewComponent implements OnInit, OnDestroy {
           while (this.postList.length > this.currentPageSize) {
             this.postList.pop();
           }
-          console.log(this.postList.map((e) => e.id));
           // define first and last reference index for the Post List
           this.index.last = this.getIndexFromChild(this.postList[this.postList.length - 1]);
           this.index.first = this.getIndexFromChild(this.postList[0]);
@@ -86,6 +96,8 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
       });
     this.subscription.add(responseSubscription);
+    this.subscription.add(messageSubscription);
+    this.subscription.add(isLoadingSubscription);
 
   }
 
@@ -160,8 +172,5 @@ export class ListViewComponent implements OnInit, OnDestroy {
     return child.kind + '_' + child.id;
   }
 
-openDialog(post :Post) {
-  this.dialog.open(DetailViewComponent, { data: post});
-  }
 
 }
