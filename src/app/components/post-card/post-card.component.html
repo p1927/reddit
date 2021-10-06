@@ -1,6 +1,6 @@
 <mat-card class="card">
   <header>
-    <img alt="" src="{{post.thumbnail}}">
+    <img alt="" src="{{getThumbnail(post.thumbnail)}}">
     <div class="card-info">
       <p class="posted-by"><span>Posted By: </span>{{post.author}}</p>
       <p>{{post.created| formatDate}}</p>
@@ -27,7 +27,7 @@
       </button>
     </div>
     <div>
-      <button (click)="openDialog(post)" color="basic" mat-button>
+      <button class="margin-right-25" (click)="openDialog(post)" color="basic" mat-button>
         <span class="margin-left-5">VIEW</span>
       </button>
     </div>

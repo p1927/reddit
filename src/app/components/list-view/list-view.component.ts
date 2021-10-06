@@ -48,6 +48,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.store.pipe(select(selectSubjectRequest)).subscribe((subjectSearchRequest) => {
+      if(subjectSearchRequest.subject !== this.searchRequest.subject){ this.postList = [];}
       this.searchRequest = subjectSearchRequest;
       this.currentPageSize = this.searchRequest.limit || DEFAULT_LIMIT;
     });

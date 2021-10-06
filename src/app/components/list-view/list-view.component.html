@@ -1,6 +1,6 @@
 <div class="container">
   <div class="overlay-layer" *ngIf="isLoading">
-    <mat-spinner [color]="'lightblue'" [diameter]="80"></mat-spinner>
+    <mat-spinner class="spinner-position" [diameter]="80"></mat-spinner>
   </div>
   <div class="error-box" *ngIf="message && !isLoading">
     <h2>Error occured!</h2>

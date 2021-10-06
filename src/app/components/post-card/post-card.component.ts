@@ -28,4 +28,19 @@ export class PostCardComponent {
     this.dialog.open(DetailViewComponent, {data: post});
   }
 
+  getThumbnail(thumbnail: string) {
+    switch (true) {
+      case thumbnail === 'self' : {
+        return '../../../assets/self.png';
+      }
+      case thumbnail === 'nsfw' : {
+        return '../../../assets/nsfw2.png';
+      }
+      case (thumbnail !== 'default' && thumbnail.length > 0) : {
+        return thumbnail;
+      }
+      default:
+        return '../../../assets/default.png';
+    }
+  }
 }
